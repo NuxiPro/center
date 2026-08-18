@@ -1,0 +1,95 @@
+---
+// src/components/Footer.astro
+import type { Props } from "@astrojs/starlight/props";
+import EditLink from "virtual:starlight/components/EditLink";
+import LastUpdated from "virtual:starlight/components/LastUpdated";
+import Pagination from "virtual:starlight/components/Pagination";
+import config from "virtual:starlight/user-config";
+import { Icon } from "@astrojs/starlight/components";
+---
+
+<!-- Conserve la navigation de bas de page native de Starlight (Page précédente / suivante) -->
+<footer class="sl-flex">
+    <div class="meta sl-flex">
+        <EditLink {...Astro.props} />
+        <LastUpdated {...Astro.props} />
+    </div>
+    <Pagination {...Astro.props} />
+
+    <!-- TON FOOTER PERSONNALISÉ ICI -->
+    <div class="custom-footer">
+        <p>© {new Date().getFullYear()} NuxiPro. All rights reserved.</p>
+        <div class="links">
+            <a href="https://nuxipro.com">Landing Page</a>
+            <a href="/blog">Blog</a>
+            <a href="https://nuxipro.com/privacy">Privacy Policy (NuxiPro demo)</a>
+            <a href="https://demo.nuxipro.com">Demo</a>
+        </div>
+    </div>
+
+    {
+        config.credits && (
+            <a class="kudos sl-flex" href="https://starlight.astro.build">
+                <Icon name={"starlight"} />{" "}
+                {Astro.locals.t("builtWithStarlight.label")}
+            </a>
+        )
+    }
+</footer>
+
+<style>
+    @layer starlight.core {
+        footer {
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .meta {
+            gap: 0.75rem 3rem;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+            font-size: var(--sl-text-sm);
+            color: var(--sl-color-gray-3);
+        }
+        .meta > :global(p:only-child) {
+            margin-inline-start: auto;
+        }
+        .custom-footer {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--sl-color-gray-5);
+            text-align: center;
+            font-size: var(--sl-text-sm);
+            color: var(--sl-color-gray-3);
+        }
+        .custom-footer .links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 0.5rem;
+        }
+        .custom-footer a {
+            color: var(--sl-color-text-accent);
+            text-decoration: none;
+        }
+        .custom-footer a:hover {
+            text-decoration: underline;
+        }
+        .kudos {
+            align-items: center;
+            gap: 0.5em;
+            margin: 1.5rem auto;
+            font-size: var(--sl-text-xs);
+            text-decoration: none;
+            color: var(--sl-color-gray-3);
+        }
+        .kudos:hover {
+            color: var(--sl-color-white);
+        }
+    }
+    @layer starlight.components {
+        .kudos :global(svg) {
+            color: var(--sl-color-orange);
+        }
+    }
+</style>
