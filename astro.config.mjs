@@ -37,7 +37,7 @@ export default defineConfig({
         starlightLinksValidator(),
         starlightLlmActions(),
         starlightAgentready({ domain: 'center.nuxipro.com' }),
-        starlightMdTxt(),
+        starlightMdTxt({ format: '.md.txt' }),
       ],
       components: {
         // Surcharge du composant Footer natif
