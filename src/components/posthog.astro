@@ -1,0 +1,64 @@
+---
+// Récupérer les variables d’environnement
+const apiKey = import.meta.env.PUBLIC_POSTHOG_PROJECT_TOKEN;
+const apiHost = import.meta.env.PUBLIC_POSTHOG_HOST;
+const isDev   = import.meta.env.DEV;
+---
+
+<script is:inline define:vars={{ apiKey, apiHost, isDev }}>
+  // Fonction utilitaire pour lire le consentement des cookies (exemple simple)
+  const getPosthogConsent = () => {
+    // Attente d'un cookie nommé "posthog_consent=1" (à adapter à votre logique)
+    return document.cookie.split(';').some(c => c.trim().startsWith('posthog_consent=')) &&
+           document.cookie.includes('posthog_consent=1');
+  };
+
+  // Encapsuler dans une IIFE pour pouvoir `return`
+  (() => {
+    const token = apiKey?.trim();
+    const host  = apiHost?.trim();
+
+    // Vérifier le consentement avant toute initialisation
+    if (!getPosthogConsent()) {
+      if (isDev) console.warn('PostHog non initialisé : consentement cookies non présent.');
+      return;
+    }
+
+    if (!token) {
+      if (isDev) console.error('PUBLIC_POSTHOG_PROJECT_TOKEN manquant – PostHog ne sera pas initialisé.');
+      return;
+    }
+    if (!host) {
+      if (isDev) console.error('PUBLIC_POSTHOG_HOST manquant – PostHog ne sera pas initialisé.');
+      return;
+    }
+
+    // Charger le SDK de façon différée (idle) pour ne pas bloquer le rendu
+    const loadSdk = () => {
+      import('posthog-js/dist/module.js')
+        .then(({ default: posthog }) => {
+          posthog.init(token, {
+            api_host: host,
+            capture_exceptions: true,
+            // Désactivation de l’enregistrement de session
+            session_recording: false,
+          });
+          // Exposer globalement pour les scripts qui s’attendent à window.posthog
+          window.posthog = posthog;
+        })
+        .catch(err => {
+          if (isDev) console.error('Impossible de charger le SDK PostHog :', err);
+        });
+    };
+
+    if (typeof requestIdleCallback === 'function') {
+      requestIdleCallback(loadSdk);
+    } else {
+      // Fallback – setTimeout avec un petit délai
+      setTimeout(loadSdk, 0);
+    }
+  })();
+</script>
+
+
+

@@ -1,4 +1,5 @@
 // @ts-check
+/// <reference path="./env.d.ts" />
 import { defineConfig } from 'astro/config';
 import starlight from '@astrojs/starlight';
 import sitemap from '@astrojs/sitemap';
@@ -42,6 +43,7 @@ export default defineConfig({
       components: {
         // Surcharge du composant Footer natif
         Footer: './src/components/Footer.astro',
+        Head: './src/components/Head.astro',
       },
       sidebar: [
         // La documentation sera ajoutée ici plus tard
