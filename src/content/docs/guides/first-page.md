@@ -1,10 +1,18 @@
 ---
-title: Example Guide
-description: A guide in my new Starlight docs site.
+title: NuxiPro Cloud - Documentation
+description: Welcome to the NuxiPro Cloud documentation.
 ---
 
-Guides lead a user through a specific task they want to accomplish, often with a sequence of steps.
-Writing a good guide requires thinking about what your users are trying to do.
+:::note[Under Construction]
+The NuxiPro Cloud documentation is currently under development. The Cloud version is coming soon.
+:::
+
+## Follow the Progress
+
+To follow the development of NuxiPro Cloud:
+
+- **Blog** — Check the blog for regular updates
+- **Dev.to** — Follow [@sbabas](https://dev.to/sbabas) for technical content
 
 ## Further reading
 
