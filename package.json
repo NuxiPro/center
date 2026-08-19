@@ -12,7 +12,6 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.7.3",
     "@astrojs/starlight": "^0.41.7",
-    "@bruits/satteri-wasm32-wasi": "^0.10.3",
     "astro": "^7.2.3",
     "sharp": "^0.35.3",
     "starlight-agentready": "^1.0.0",
