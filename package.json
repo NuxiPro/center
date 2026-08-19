@@ -2,6 +2,7 @@
   "name": "page-starlight",
   "type": "module",
   "version": "0.0.1",
+  "packageManager": "bun@1.2.15",
   "scripts": {
     "dev": "astro dev",
     "start": "astro dev",
