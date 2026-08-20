@@ -8,7 +8,7 @@ import starlightThemeExquisitus from 'starlight-theme-exquisitus';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightLlmActions from 'starlight-llm-actions';
-import starlightAgentready from 'starlight-agentready';
+// import starlightAgentready from 'starlight-agentready'; // Disabled – replacing with Pagefind/Algolia
 import starlightMdTxt from 'starlight-md-txt';
 
 // https://astro.build/config
@@ -38,7 +38,7 @@ export default defineConfig({
       starlightLlmsTxt(),
       starlightLinksValidator(),
       starlightLlmActions(),
-      starlightAgentready({ domain: 'center.nuxipro.com' }),
+      // starlightAgentready({ domain: 'center.nuxipro.com' }), // Disabled – use Pagefind (built‑in) or Algolia DocSearch instead
       starlightMdTxt({ format: '.md.txt' }),
     ],
     components: {
