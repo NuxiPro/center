@@ -5,6 +5,8 @@ date: 2026-08-19
 authors: ['admin']
 ---
 
+import Newsletter from '../../../components/Newsletter.astro';
+
 ## What is NuxiPro?
 
 NuxiPro is a minimalist, lightweight task manager with no unnecessary features that clutter your workspace. Its core purpose is to create a **self-cleaning workspace** — tasks that reach "Done" are archived automatically.
@@ -49,7 +51,7 @@ The Cloud version of NuxiPro ([app.nuxipro.com](https://app.nuxipro.com)) is cur
 
 ### What NuxiPro Cloud will offer
 
-- **Secure data storage** — Your data is stored in a database, not in your browser's localStorage
+- **Secure data storage** — Your data is stored in a database, not in the browser's localStorage
 - **Data sovereignty** — You own your data, always
 - **Multi-project support** — Each project appears as a line in the sidebar with its own name
 - **Auto-archiving of completed tasks** — Finished tasks are automatically moved to the archive
@@ -73,7 +75,7 @@ Your workspace stays clean, free of visual clutter from completed tasks. You can
 
 The demo is designed for demonstration only. If you store sensitive data, you may lose it permanently because storage is done in your browser (localStorage). The Cloud version solves this with persistent server-side storage.
 
-### Demo vs Cloud
+## Demo vs Cloud
 
 | | Demo | Cloud |
 |---|---|---|
@@ -85,7 +87,7 @@ The demo is designed for demonstration only. If you store sensitive data, you ma
 | Configuration | None | Choose archiving mode at setup |
 | Intended use | Discovery | Production, real daily use |
 
-### Join the waitlist
+## Join the waitlist
 
 The Cloud version will launch with a pre-release for early testers. Join the waitlist at [demo.nuxipro.com](https://demo.nuxipro.com) — Sébastien Babas will personally notify you when the pre-release is about to launch.
 
@@ -101,3 +103,5 @@ Your feedback will directly shape how NuxiPro Cloud gets built.
 ---
 
 *Built by Sébastien Babas — Designed for absolute mental clarity.*
+
+<Newsletter />

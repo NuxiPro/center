@@ -3,6 +3,7 @@
   "include": [".astro/types.d.ts", "**/*", "env.d.ts"],
   "exclude": ["dist"],
   "compilerOptions": {
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "bundler"
   }
 }
