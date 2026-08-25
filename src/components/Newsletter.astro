@@ -8,14 +8,17 @@
     Join the waitlist for <strong>exclusive newsletters</strong> and <strong>pre-release access</strong> before the official launch.
   </p>
 
-  <form class="newsletter-form" id="newsletter-form" action="https://app.loops.so/api/newsletter-form/cms1telfr0eqp0jymfc1eve8d" method="POST">
+  <form class="newsletter-form" id="newsletter-form">
     <div class="newsletter-row">
       <input type="email" name="email" placeholder="your.email@example.com" required class="newsletter-input" />
-      <input type="hidden" name="source" value="Blog Center" />
       <button type="submit" class="newsletter-btn" id="newsletter-btn">Join Waitlist</button>
     </div>
     <p class="newsletter-disclaimer">No spam. Unsubscribe anytime.</p>
-    <div aria-hidden="true" style="position:absolute;left:-9999px" tabindex="-1"></div>
+
+    <!-- Honeypot anti-bot -->
+    <div aria-hidden="true" style="position:absolute;left:-9999px" tabindex="-1">
+      <input type="text" name="website" tabindex="-1" autocomplete="off" />
+    </div>
   </form>
 
   <div class="newsletter-success" id="newsletter-success">
@@ -132,78 +135,87 @@
 
 <script>
   const RATE_LIMIT_MS = 60_000;
-  const form = document.getElementById('newsletter-form') as HTMLFormElement;
-  const btn = document.getElementById('newsletter-btn')!;
-  const success = document.getElementById('newsletter-success')!;
-  const errorBox = document.getElementById('newsletter-error')!;
-  const errorText = document.getElementById('error-text')!;
-  const retryBtn = document.getElementById('error-retry')!;
 
-  function detectLang() {
-    const langs = navigator.languages || [navigator.language || 'en'];
-    return langs.some((l) => l.toLowerCase().startsWith('fr')) ? 'fr' : 'en';
+  // Endpoint dynamique zéro hardcode via variables d'environnement Astro
+  const baseUrl = (import.meta.env.PUBLIC_API_URL ?? "").trim().replace(/\/+$/, "");
+  const API_ENDPOINT = baseUrl ? `${baseUrl}/api/subscribe` : "/api/subscribe";
+
+  const form = document.getElementById("newsletter-form") as HTMLFormElement;
+  const btn = document.getElementById("newsletter-btn") as HTMLButtonElement;
+  const success = document.getElementById("newsletter-success") as HTMLDivElement;
+  const errorBox = document.getElementById("newsletter-error") as HTMLDivElement;
+  const errorText = document.getElementById("error-text") as HTMLParagraphElement;
+  const retryBtn = document.getElementById("error-retry") as HTMLButtonElement;
+
+  function detectLang(): string {
+    return (navigator.language || "en").toLowerCase().startsWith("fr") ? "fr" : "en";
   }
 
-  function reset() {
-    form.style.display = '';
-    success.style.display = 'none';
-    errorBox.style.display = 'none';
-    btn.textContent = 'Join Waitlist';
-    btn.removeAttribute('disabled');
+  function reset(): void {
+    form.style.display = "";
+    success.style.display = "none";
+    errorBox.style.display = "none";
+    btn.textContent = "Join Waitlist";
+    btn.removeAttribute("disabled");
   }
 
-  form?.addEventListener('submit', async (e) => {
+  form?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
 
-    const prev = localStorage.getItem('newsletter-ts');
+    // 1. Protection Anti-bot Honeypot
+    const formData = new FormData(form);
+    if (formData.get("website")) return;
+
+    // 2. Protection Rate-limiting côté client
+    const prev = localStorage.getItem("newsletter-ts");
     if (prev && Date.now() - Number(prev) < RATE_LIMIT_MS) {
-      errorText.textContent = 'Please wait before submitting again.';
-      errorBox.style.display = 'flex';
+      errorText.textContent = "Please wait before submitting again.";
+      errorBox.style.display = "flex";
       return;
     }
 
-    btn.textContent = 'Joining...';
-    btn.setAttribute('disabled', '');
+    const email = String(formData.get("email") ?? "").trim();
+    if (!email) return;
 
-    const email = (form.querySelector('[name="email"]') as HTMLInputElement).value;
-    const lang = detectLang();
-    const body = `email=${encodeURIComponent(email)}&language=${lang}&userGroup=Blog`;
+    // 3. UI Optimiste instantanée
+    form.style.display = "none";
+    success.style.display = "flex";
 
-    console.log('[DEV][Newsletter] URL:', form.action);
-    console.log('[DEV][Newsletter] Body:', body);
+    const autoResetTimer = setTimeout(() => {
+      reset();
+      form.reset();
+    }, 3000);
 
+    // 4. Envoi sécurisé au backend Plunk
     try {
-      const res = await fetch(form.action, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-        body,
+      const res = await fetch(API_ENDPOINT, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          email,
+          notes: `Blog Center Subscription (${detectLang()})`,
+          userGroup: "Blog",
+        }),
       });
 
-      const data = await res.json();
-      console.log('[DEV][Newsletter] Status:', res.status);
-      console.log('[DEV][Newsletter] Response:', data);
-
-      if (res.ok && data.success) {
-        localStorage.setItem('newsletter-ts', Date.now().toString());
-        form.style.display = 'none';
-        success.style.display = 'flex';
-        setTimeout(reset, 3000);
-      } else {
-        const msg = data.message || 'Unknown error';
-        console.error('[DEV][Newsletter] Error:', msg);
-        errorText.textContent = msg;
-        errorBox.style.display = 'flex';
-        btn.textContent = 'Join Waitlist';
-        btn.removeAttribute('disabled');
+      if (!res.ok) {
+        const errData = (await res.json().catch(() => ({}))) as { error?: string; message?: string };
+        throw new Error(errData.error || errData.message || "Failed to subscribe");
       }
-    } catch (err) {
-      console.error('[DEV][Newsletter] Network error:', err);
-      errorText.textContent = 'Network error. Please try again.';
-      errorBox.style.display = 'flex';
-      btn.textContent = 'Join Waitlist';
-      btn.removeAttribute('disabled');
+
+      localStorage.setItem("newsletter-ts", Date.now().toString());
+    } catch (err: unknown) {
+      // Fallback propre en cas d'erreur réseau / backend
+      clearTimeout(autoResetTimer);
+      form.style.display = "";
+      success.style.display = "none";
+      btn.textContent = "Join Waitlist";
+      btn.removeAttribute("disabled");
+
+      errorText.textContent = err instanceof Error ? err.message : "Network error. Please try again.";
+      errorBox.style.display = "flex";
     }
   });
 
-  retryBtn?.addEventListener('click', reset);
+  retryBtn?.addEventListener("click", reset);
 </script>
