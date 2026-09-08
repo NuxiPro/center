@@ -1,0 +1,85 @@
+---
+title: "Building NuxiPro Cloud: What's new"
+description: After planning NuxiPro Cloud, here is what I built so far.
+date: 2026-09-06
+authors: ['admin']
+---
+
+import { Image } from 'astro:assets'
+import Newsletter from '../../../components/Newsletter.astro';
+import screenshot from '../../../assets/Cloud-NuxiPro-picture.png';
+
+J'ai décidé de rendre la version Cloud de NuxiPro sécurisée et minimaliste au quotidien, sans que j'aie besoin de me soucier de l'outil, notamment parce qu'elle stockera mes propres données personnelles et professionnelles.
+
+<Image 
+    src={screenshot} 
+    alt="Cloud NuxiPro" 
+    width={600}
+    loading="lazy"
+/>
+
+Pour le moment, cette version de mon projet n'est pas encore prête ni fonctionnelle pour accueillir de vraies données critiques en production.
+
+---
+
+### Ma stack technique backend
+
+Voici les technologies que j'ai ajoutées dans Cloud NuxiPro :
+
+- **Better Auth** (pour l'authentification)
+- **Drizzle** (ORM pour PostgreSQL)
+- **Hono** (pour le serveur backend)
+- **Fractional indexing** (pour la gestion de la position des tâches dans le Kanban board)
+- **Nginx** (reverse proxy prévu devant le backend avant le lancement de NuxiPro Cloud)
+- **TypeScript** (langage principal du backend)
+- **Bun** (runtime pour exécuter le backend)
+- **date-fns** (pour la gestion des dates)
+- **Zod / Hono validator** (pour la validation des données entrantes et sortantes)
+- **OpenObserve** (pour la gestion centralisée des logs)
+
+> **[ZONE D'IMAGE 1 : Diagramme d'architecture Backend]**  
+> *(Ajoute ici l'image de ton schéma d'architecture complet avec Nginx, Hono, Better Auth, Valkey, PostgreSQL et OpenObserve).*
+
+#### Pourquoi ce choix pour le backend ?
+
+J'ai choisi cette stack pour rendre NuxiPro efficace, prévisible et pour garantir une sécurité résiliente. Comme j'y stockerai mes propres données et que je vois régulièrement des SaaS se faire pirater, j'ai refusé d'être le prochain sur la liste. Mon objectif est de créer un système où les utilisateurs seront en sécurité grâce à un outil souverain, hébergé en Finlande chez **UpCloud** (souverain, performant et très intéressant en termes de prix).
+
+J'ai opté pour **Hono** et **Better Auth** parce qu'ils sont simples d'utilisation, très efficaces et m'aident à bâtir une sécurité solide. 
+
+J'ai également intégré le **Fractional indexing** pour gérer la position des cartes dans le Kanban de la façon la plus performante possible. Cela permet de glisser-déposer une tâche entre deux colonnes ou au-dessus d'une autre sans devoir réécrire la valeur de toutes les autres tâches. En gros, j'évite les collisions tout en offrant une excellente fluidité au quotidien.
+
+Pour centraliser mes logs et gérer les erreurs, j'utilise **OpenObserve**. L'objectif est de repérer et corriger les plantages très rapidement. Même avant la sortie de la version Cloud, je vais effectuer une batterie de tests intensifs dans le but explicite de faire crasher le système. Cela me permettra de m'assurer qu'il est vraiment robuste. Bien sûr, cela n'empêchera pas 100 % des bugs à l'avenir, mais ces crash-tests me prouveront la solidité de l'outil.
+
+---
+
+### Ma stack technique frontend
+
+- **TypeScript** (pour la simplicité et la sécurité du typage)
+- **TanStack Router / Query** (pour gérer les pages dynamiques et l'état)
+- **React** (pour construire l'interface utilisateur)
+- **Zod & React Hook Form** (pour valider les données saisies dans les formulaires)
+- **shadcn/ui** (pour ne pas recréer l'interface de zéro et éviter de perdre du temps sur des bugs d'UI inutiles)
+- **Tiptap** (pour créer l'éditeur Markdown)
+- **dnd kit** (pour le drag & drop fluide dans le Kanban)
+- **Bun, Vite & Hono Client** (pour le build, le bundling et la communication avec l'API)
+
+> **[ZONE D'IMAGE 2 : Capture de l'interface Frontend / Kanban]**  
+> *(Ajoute ici une capture d'écran de l'interface utilisateur actuelle, par exemple le Kanban avec Tiptap ou le drag & drop en action).*
+
+#### Pourquoi ce choix pour le frontend ?
+
+J'ai choisi cette stack parce qu'elle est simple, maintenable sur le long terme et pensée pour durer plusieurs années sans devenir obsolète.
+
+---
+
+### Pourquoi avoir fait le choix de cette stack globale ?
+
+J'ai conçu cette stack principalement pour bâtir un outil de travail quotidien efficace, simple et sans bruit visuel inutile qui fait perdre du temps.
+
+Je visais (et je vise) en priorité un outil adapté aux personnes qui travaillent en solo. De nos jours, la plupart des logiciels ne cessent d'ajouter des fonctionnalités au lieu de les simplifier, ce qui crée de la friction au quotidien. 
+
+Étant quelqu'un de très exigeant sur la sécurité, les performances et l'absence de bugs, je veux que mon propre outil de travail soit ultra-efficace et ne me demande pas d'énergie à gérer. NuxiPro est là pour me servir au quotidien, aussi bien dans mes projets pros que perso.
+
+---
+
+<Newsletter />
