@@ -8,6 +8,8 @@ authors: ['admin']
 import { Image } from 'astro:assets'
 import Newsletter from '../../../components/Newsletter.astro';
 import screenshot from '../../../assets/Cloud-NuxiPro-picture.png';
+import diagram from '../../../assets/diagram.png';
+
 
 J'ai décidé de rendre la version Cloud de NuxiPro sécurisée et minimaliste au quotidien, sans que j'aie besoin de me soucier de l'outil, notamment parce qu'elle stockera mes propres données personnelles et professionnelles.
 
@@ -37,8 +39,12 @@ Voici les technologies que j'ai ajoutées dans Cloud NuxiPro :
 - **Zod / Hono validator** (pour la validation des données entrantes et sortantes)
 - **OpenObserve** (pour la gestion centralisée des logs)
 
-> **[ZONE D'IMAGE 1 : Diagramme d'architecture Backend]**  
-> *(Ajoute ici l'image de ton schéma d'architecture complet avec Nginx, Hono, Better Auth, Valkey, PostgreSQL et OpenObserve).*
+<Image 
+    src={diagram} 
+    alt="Infra diagram" 
+    width={600}
+    loading="lazy"
+/>
 
 #### Pourquoi ce choix pour le backend ?
 
