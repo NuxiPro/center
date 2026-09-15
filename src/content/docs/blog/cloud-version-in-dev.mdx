@@ -9,6 +9,7 @@ import { Image } from 'astro:assets'
 import Newsletter from '../../../components/Newsletter.astro';
 import screenshot from '../../../assets/Cloud-NuxiPro-picture.png';
 import diagram from '../../../assets/diagram.png';
+import move from '../../../assets/moving-action.png';
 
 
 I decided to make the Cloud version of NuxiPro secure and minimalist on a day-to-day basis, so I never have to worry about the tool itself, especially since it will store my own personal and professional data.
@@ -68,6 +69,13 @@ To centralize my logs and handle errors, I use **OpenObserve**. The goal is to s
 - **Tiptap** (for building the Markdown editor)
 - **dnd kit** (for smooth drag & drop in the Kanban board)
 - **Bun, Vite & Hono Client** (for building, bundling, and communicating with the API)
+
+<Image 
+    src={move} 
+    alt="Draging action" 
+    width={600}
+    loading="lazy"
+/>
 
 ---
 
