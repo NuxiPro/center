@@ -29,7 +29,7 @@ export default defineConfig({
       starlightBlog({
         authors: {
           admin: {
-            name: 'Fondateur NuxiPro',
+            name: 'Sébastien Babas',
             url: 'https://github.com/sbabas',
           },
         },

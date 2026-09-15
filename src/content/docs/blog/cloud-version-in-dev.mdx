@@ -1,7 +1,7 @@
 ---
 title: "Building NuxiPro Cloud: What's new"
 description: After planning NuxiPro Cloud, here is what I built so far.
-date: 2026-09-06
+date: 2026-09-15
 authors: ['admin']
 ---
 
@@ -11,7 +11,7 @@ import screenshot from '../../../assets/Cloud-NuxiPro-picture.png';
 import diagram from '../../../assets/diagram.png';
 
 
-J'ai décidé de rendre la version Cloud de NuxiPro sécurisée et minimaliste au quotidien, sans que j'aie besoin de me soucier de l'outil, notamment parce qu'elle stockera mes propres données personnelles et professionnelles.
+I decided to make the Cloud version of NuxiPro secure and minimalist on a day-to-day basis, so I never have to worry about the tool itself, especially since it will store my own personal and professional data.
 
 <Image 
     src={screenshot} 
@@ -20,24 +20,24 @@ J'ai décidé de rendre la version Cloud de NuxiPro sécurisée et minimaliste a
     loading="lazy"
 />
 
-Pour le moment, cette version de mon projet n'est pas encore prête ni fonctionnelle pour accueillir de vraies données critiques en production.
+For now, this version of my project isn't ready or functional enough yet to handle real, critical data in production.
 
 ---
 
-### Ma stack technique backend
+### My backend tech stack
 
-Voici les technologies que j'ai ajoutées dans Cloud NuxiPro :
+Here are the technologies I've added to Cloud NuxiPro:
 
-- **Better Auth** (pour l'authentification)
-- **Drizzle** (ORM pour PostgreSQL)
-- **Hono** (pour le serveur backend)
-- **Fractional indexing** (pour la gestion de la position des tâches dans le Kanban board)
-- **Nginx** (reverse proxy prévu devant le backend avant le lancement de NuxiPro Cloud)
-- **TypeScript** (langage principal du backend)
-- **Bun** (runtime pour exécuter le backend)
-- **date-fns** (pour la gestion des dates)
-- **Zod / Hono validator** (pour la validation des données entrantes et sortantes)
-- **OpenObserve** (pour la gestion centralisée des logs)
+- **Better Auth** (for authentication)
+- **Drizzle** (ORM for PostgreSQL)
+- **Hono** (for the backend server)
+- **Fractional indexing** (for managing task position on the Kanban board)
+- **Nginx** (reverse proxy planned in front of the backend before Cloud NuxiPro launches)
+- **TypeScript** (main backend language)
+- **Bun** (runtime to run the backend)
+- **date-fns** (for date handling)
+- **Zod / Hono validator** (for validating incoming and outgoing data)
+- **OpenObserve** (for centralized log management)
 
 <Image 
     src={diagram} 
@@ -46,45 +46,44 @@ Voici les technologies que j'ai ajoutées dans Cloud NuxiPro :
     loading="lazy"
 />
 
-#### Pourquoi ce choix pour le backend ?
+#### Why this choice for the backend?
 
-J'ai choisi cette stack pour rendre NuxiPro efficace, prévisible et pour garantir une sécurité résiliente. Comme j'y stockerai mes propres données et que je vois régulièrement des SaaS se faire pirater, j'ai refusé d'être le prochain sur la liste. Mon objectif est de créer un système où les utilisateurs seront en sécurité grâce à un outil souverain, hébergé en Finlande chez **UpCloud** (souverain, performant et très intéressant en termes de prix).
+I chose this stack to make NuxiPro efficient, predictable, and to guarantee resilient security. Since I'll be storing my own data there, and I regularly see SaaS products get hacked, I refused to be next on that list. My goal is to build a system where users are safe thanks to a sovereign tool, hosted in Finland with **UpCloud** (sovereign, performant, and very appealing in terms of price).
 
-J'ai opté pour **Hono** et **Better Auth** parce qu'ils sont simples d'utilisation, très efficaces et m'aident à bâtir une sécurité solide. 
+I went with **Hono** and **Better Auth** because they're simple to use, highly efficient, and help me build solid security.
 
-J'ai également intégré le **Fractional indexing** pour gérer la position des cartes dans le Kanban de la façon la plus performante possible. Cela permet de glisser-déposer une tâche entre deux colonnes ou au-dessus d'une autre sans devoir réécrire la valeur de toutes les autres tâches. En gros, j'évite les collisions tout en offrant une excellente fluidité au quotidien.
+I also integrated **Fractional indexing** to manage card position on the Kanban board as efficiently as possible. It lets you drag and drop a task between two columns or above another one without having to rewrite the value of every other task. In short, it avoids collisions while keeping things smooth day to day.
 
-Pour centraliser mes logs et gérer les erreurs, j'utilise **OpenObserve**. L'objectif est de repérer et corriger les plantages très rapidement. Même avant la sortie de la version Cloud, je vais effectuer une batterie de tests intensifs dans le but explicite de faire crasher le système. Cela me permettra de m'assurer qu'il est vraiment robuste. Bien sûr, cela n'empêchera pas 100 % des bugs à l'avenir, mais ces crash-tests me prouveront la solidité de l'outil.
-
----
-
-### Ma stack technique frontend
-
-- **TypeScript** (pour la simplicité et la sécurité du typage)
-- **TanStack Router / Query** (pour gérer les pages dynamiques et l'état)
-- **React** (pour construire l'interface utilisateur)
-- **Zod & React Hook Form** (pour valider les données saisies dans les formulaires)
-- **shadcn/ui** (pour ne pas recréer l'interface de zéro et éviter de perdre du temps sur des bugs d'UI inutiles)
-- **Tiptap** (pour créer l'éditeur Markdown)
-- **dnd kit** (pour le drag & drop fluide dans le Kanban)
-- **Bun, Vite & Hono Client** (pour le build, le bundling et la communication avec l'API)
-
-> **[ZONE D'IMAGE 2 : Capture de l'interface Frontend / Kanban]**  
-> *(Ajoute ici une capture d'écran de l'interface utilisateur actuelle, par exemple le Kanban avec Tiptap ou le drag & drop en action).*
-
-#### Pourquoi ce choix pour le frontend ?
-
-J'ai choisi cette stack parce qu'elle est simple, maintenable sur le long terme et pensée pour durer plusieurs années sans devenir obsolète.
+To centralize my logs and handle errors, I use **OpenObserve**. The goal is to spot and fix crashes very quickly. Even before the Cloud version ships, I'm going to run a battery of intensive tests with the explicit goal of trying to crash the system. That will let me confirm it's truly robust. Of course, that won't rule out 100% of future bugs, but these crash tests will prove the tool's solidity.
 
 ---
 
-### Pourquoi avoir fait le choix de cette stack globale ?
+### My frontend tech stack
 
-J'ai conçu cette stack principalement pour bâtir un outil de travail quotidien efficace, simple et sans bruit visuel inutile qui fait perdre du temps.
+- **TypeScript** (for simplicity and type safety)
+- **TanStack Router / Query** (for handling dynamic pages and state)
+- **React** (for building the user interface)
+- **Zod & React Hook Form** (for validating form input data)
+- **shadcn/ui** (so I don't recreate the interface from scratch and waste time on pointless UI bugs)
+- **Tiptap** (for building the Markdown editor)
+- **dnd kit** (for smooth drag & drop in the Kanban board)
+- **Bun, Vite & Hono Client** (for building, bundling, and communicating with the API)
 
-Je visais (et je vise) en priorité un outil adapté aux personnes qui travaillent en solo. De nos jours, la plupart des logiciels ne cessent d'ajouter des fonctionnalités au lieu de les simplifier, ce qui crée de la friction au quotidien. 
+---
 
-Étant quelqu'un de très exigeant sur la sécurité, les performances et l'absence de bugs, je veux que mon propre outil de travail soit ultra-efficace et ne me demande pas d'énergie à gérer. NuxiPro est là pour me servir au quotidien, aussi bien dans mes projets pros que perso.
+#### Why this choice for the frontend?
+
+I chose this stack because it's simple, maintainable over the long run, and built to last several years without becoming obsolete.
+
+---
+
+### Why did I choose this overall stack?
+
+I designed this stack mainly to build an efficient, simple daily work tool, free of unnecessary visual noise that wastes time.
+
+My priority was (and still is) a tool suited to people who work solo. Nowadays, most software keeps piling on features instead of simplifying, which creates friction on a daily basis.
+
+Being someone very demanding about security, performance, and freedom from bugs, I want my own work tool to be ultra-efficient and require zero energy to manage. NuxiPro is here to serve me every day, both in my professional and personal projects.
 
 ---
 
