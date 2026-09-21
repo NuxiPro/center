@@ -1,107 +1,107 @@
 ---
-title: Introducing NuxiPro
-description: A minimalist Kanban task manager with automatic archiving.
+title: Présentation de NuxiPro
+description: Un gestionnaire de tâches Kanban minimaliste avec archivage automatique.
 date: 2026-08-19
 authors: ['admin']
 ---
 
-import Newsletter from '../../../components/Newsletter.astro';
+import Newsletter from '@/components/Newsletter.astro';
 
-## What is NuxiPro?
+## Qu'est-ce que NuxiPro ?
 
-NuxiPro is a minimalist, lightweight task manager with no unnecessary features that clutter your workspace. Its core purpose is to create a **self-cleaning workspace** — tasks that reach "Done" are archived automatically.
+NuxiPro est un gestionnaire de tâches minimaliste et léger, sans fonctionnalités inutiles qui encombrent votre espace de travail. Son objectif principal est de créer un **espace de travail auto-nettoyant** — les tâches qui atteignent "Terminé" sont archivées automatiquement.
 
-Most Kanban tools make it easy to add tasks and features, but none keep your workspace clean and clutter-free. NuxiPro solves this problem.
+La plupart des outils Kanban facilitent l'ajout de tâches et de fonctionnalités, mais aucun ne garde votre espace de travail propre et sans encombrement. NuxiPro résout ce problème.
 
-## The Problem
+## Le problème
 
-Today's tools help us add tasks, but none help us remove them. Without automatic cleanup, the "Done" column becomes a graveyard of cards. We waste precious time figuring out how to archive and cleaning up manually, instead of moving our project forward.
+Les outils actuels nous aident à ajouter des tâches, mais aucun ne nous aide à les retirer. Sans nettoyage automatique, la colonne "Terminé" devient un cimetière de cartes. On perd un temps précieux à chercher comment archiver et à nettoyer manuellement, au lieu de faire avancer son projet.
 
-I built NuxiPro to offer a simple, minimalist Kanban that's ready to use. As soon as a task slides into the "Done" column, it's instantly archived in the background. Minimal configuration, zero complexity, and your board stays clean from day one.
+J'ai construit NuxiPro pour proposer un Kanban simple, minimaliste, prêt à l'emploi. Dès qu'une tâche glisse dans la colonne "Terminé", elle est instantanément archivée en arrière-plan. Configuration minimale, zéro complexité, et votre tableau reste propre dès le premier jour.
 
-## How it works
+## Comment ça marche
 
-- **Instant archiving (demo):** Tasks archive instantly when moved to Done. Data stays in your browser (localStorage).
-- **Configurable archiving (cloud):** Choose your archiving mode — instant or time-based (X days). Persistent server storage.
+- **Archivage instantané (démo) :** Les tâches s'archivent instantanément lorsqu'elles sont déplacées vers Terminé. Les données restent dans votre navigateur (localStorage).
+- **Archivage configurable (cloud) :** Choisissez votre mode d'archivage — instantané ou temporisé (X jours). Stockage serveur persistant.
 
-## Key Features
+## Fonctionnalités clés
 
-- **Zero friction** — Manual archiving disappears completely
-- **Zero visual clutter** — No more completed tasks polluting your workspace
-- **Simple tracking** — Visualize your progress and daily wins, effortlessly
-- **No useless features** — Focus on what matters without being overwhelmed
-- **Quick start** — A tool ready to use, simple day-to-day
+- **Zéro friction** — L'archivage manuel disparaît complètement
+- **Zéro encombrement visuel** — Plus de tâches terminées qui polluent votre espace de travail
+- **Suivi simple** — Visualisez votre progression et vos victoires quotidiennes, sans effort
+- **Aucune fonctionnalité inutile** — Concentrez-vous sur l'essentiel sans être submergé
+- **Démarrage rapide** — Un outil prêt à l'emploi, simple au quotidien
 
-## Demo vs Cloud
+## Démo vs Cloud
 
-| | Demo | Cloud |
+| | Démo | Cloud |
 |---|---|---|
-| Archiving mode | Instant only | Instant or time-based |
-| Data storage | Browser localStorage | Server-side (persistent) |
-| Intended use | Discovery | Production, real daily use |
-| Account required | No | Yes |
+| Mode d'archivage | Instantané uniquement | Instantané ou temporisé |
+| Stockage des données | localStorage du navigateur | Côté serveur (persistant) |
+| Usage prévu | Découverte | Production, usage quotidien réel |
+| Compte requis | Non | Oui |
 
-## Try it
+## Essayez-la
 
-Try the [live demo](https://demo.nuxipro.com) without creating an account.
+Essayez la [démo en ligne](https://demo.nuxipro.com) sans créer de compte.
 
-## NuxiPro Cloud — Coming Soon
+## NuxiPro Cloud — Bientôt disponible
 
-The Cloud version of NuxiPro ([app.nuxipro.com](https://app.nuxipro.com)) is currently in development.
+La version Cloud de NuxiPro ([app.nuxipro.com](https://app.nuxipro.com)) est actuellement en développement.
 
-### What NuxiPro Cloud will offer
+### Ce que proposera NuxiPro Cloud
 
-- **Secure data storage** — Your data is stored in a database, not in the browser's localStorage
-- **Data sovereignty** — You own your data, always
-- **Multi-project support** — Each project appears as a line in the sidebar with its own name
-- **Auto-archiving of completed tasks** — Finished tasks are automatically moved to the archive
-- **Minimalist tools** — No useless features you'll never use
-- **Dedicated account** — One account per user
-- **Workspaces** — Switch between workspaces without losing time
-- **Low configuration** — Choose your archiving mode at setup, change it anytime
+- **Stockage sécurisé des données** — Vos données sont stockées dans une base de données, pas dans le localStorage du navigateur
+- **Souveraineté des données** — Vous restez propriétaire de vos données, toujours
+- **Support multi-projets** — Chaque projet apparaît comme une ligne dans la barre latérale avec son propre nom
+- **Archivage automatique des tâches terminées** — Les tâches terminées sont déplacées automatiquement vers l'archive
+- **Outils minimalistes** — Aucune fonctionnalité inutile que vous n'utiliserez jamais
+- **Compte dédié** — Un compte par utilisateur
+- **Espaces de travail** — Basculez entre vos espaces de travail sans perdre de temps
+- **Configuration réduite** — Choisissez votre mode d'archivage à la configuration, changez-le à tout moment
 
-### How archiving works in Cloud
+### Comment fonctionne l'archivage dans Cloud
 
-Two modes to choose from:
+Deux modes au choix :
 
-- **Instant** — Task archives immediately when moved to "Done"
-- **Time-based** — Task archives after X days (configurable)
+- **Instantané** — La tâche s'archive immédiatement lorsqu'elle est déplacée vers "Terminé"
+- **Temporisé** — La tâche s'archive après X jours (configurable)
 
-Your tasks are visually separated from your workspace. Completed tasks move to a dedicated archive zone without being loaded when you open your project — avoiding performance issues.
+Vos tâches sont visuellement séparées de votre espace de travail. Les tâches terminées passent dans une zone d'archive dédiée, sans être chargées à l'ouverture de votre projet — ce qui évite les problèmes de performance.
 
-Your workspace stays clean, free of visual clutter from completed tasks. You can always find your archived tasks in the archive zone without ever losing them.
+Votre espace de travail reste propre, sans encombrement visuel dû aux tâches terminées. Vous pouvez toujours retrouver vos tâches archivées dans la zone d'archive, sans jamais les perdre.
 
-### Why the demo is not made for real projects
+### Pourquoi la démo n'est pas faite pour de vrais projets
 
-The demo is designed for demonstration only. If you store sensitive data, you may lose it permanently because storage is done in your browser (localStorage). The Cloud version solves this with persistent server-side storage.
+La démo est conçue uniquement pour la démonstration. Si vous y stockez des données sensibles, vous risquez de les perdre définitivement car le stockage se fait dans votre navigateur (localStorage). La version Cloud résout ce problème grâce à un stockage serveur persistant.
 
-## Demo vs Cloud
+## Démo vs Cloud
 
-| | Demo | Cloud |
+| | Démo | Cloud |
 |---|---|---|
-| Data storage | Browser localStorage (may be lost) | Database (persistent) |
-| Archiving mode | Instant only | Instant or time-based |
-| Projects | Single project | Multi-project |
-| Workspaces | No | Yes |
-| Account | No | Yes |
-| Configuration | None | Choose archiving mode at setup |
-| Intended use | Discovery | Production, real daily use |
+| Stockage des données | localStorage du navigateur (peut être perdu) | Base de données (persistant) |
+| Mode d'archivage | Instantané uniquement | Instantané ou temporisé |
+| Projets | Projet unique | Multi-projets |
+| Espaces de travail | Non | Oui |
+| Compte | Non | Oui |
+| Configuration | Aucune | Choix du mode d'archivage à la configuration |
+| Usage prévu | Découverte | Production, usage quotidien réel |
 
-## Join the waitlist
+## Rejoignez la liste d'attente
 
-The Cloud version will launch with a pre-release for early testers. Join the waitlist at [demo.nuxipro.com](https://demo.nuxipro.com) — Sébastien Babas will personally notify you when the pre-release is about to launch.
+La version Cloud sera lancée avec une pré-version pour les premiers testeurs. Rejoignez la liste d'attente sur [demo.nuxipro.com](https://demo.nuxipro.com) — Sébastien Babas vous préviendra personnellement quand la pré-version sera sur le point de sortir.
 
-Your feedback will directly shape how NuxiPro Cloud gets built.
+Vos retours façonneront directement la construction de NuxiPro Cloud.
 
-## Follow the development
+## Suivez le développement
 
-- **Blog** — Follow this blog for updates on NuxiPro Cloud
-- **Dev.to** — Follow [@sbabas](https://dev.to/sbabas) for technical content
+- **Blog** — Suivez ce blog pour les mises à jour sur NuxiPro Cloud
+- **Dev.to** — Suivez [@sbabas](https://dev.to/sbabas) pour du contenu technique
 - **Twitter** — [@Tybass450](https://twitter.com/Tybass450)
 - **Email** — [contact@nuxipro.com](mailto:contact@nuxipro.com)
 
 ---
 
-*Built by Sébastien Babas — Designed for absolute mental clarity.*
+*Construit par Sébastien Babas — Conçu pour une clarté mentale absolue.*
 
 <Newsletter />

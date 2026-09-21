@@ -1,0 +1,17 @@
+{
+  "newsletter.badge": "Early Access",
+  "newsletter.button": "Rejoindre la liste",
+  "newsletter.descAnd": "et",
+  "newsletter.descBold1": "des newsletters exclusives",
+  "newsletter.descBold2": "un accès en avant-première",
+  "newsletter.descPrefix": "Rejoignez la liste d'attente pour",
+  "newsletter.descSuffix": "avant le lancement officiel.",
+  "newsletter.disclaimer": "Pas de spam. Désabonnement à tout moment.",
+  "newsletter.errorNetwork": "Erreur réseau. Veuillez réessayer.",
+  "newsletter.errorRateLimit": "Veuillez patienter avant de réessayer.",
+  "newsletter.errorRetry": "Réessayer",
+  "newsletter.errorSubscribe": "Échec de l'inscription",
+  "newsletter.placeholder": "votre.email@exemple.com",
+  "newsletter.success": "Vous êtes inscrit !",
+  "newsletter.title": "Accès anticipé à NuxiPro Cloud"
+}

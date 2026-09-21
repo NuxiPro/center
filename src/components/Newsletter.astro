@@ -1,19 +1,35 @@
 ---
+import config from 'virtual:starlight/user-config';
+
+const t = Astro.locals.t;
+// Résolution dynamique sans hardcode 'fr' : dérivé de astro.config.mjs locales/defaultLocale
+const defaultLocale = config.defaultLocale ?? 'root';
+const rootLang = (config.locales as Record<string, { lang?: string }>)?.root?.lang ?? 'fr';
+const rawLocale = Astro.currentLocale ?? defaultLocale;
+const locale = rawLocale === 'root' ? rootLang : rawLocale;
 ---
 
-<div class="newsletter">
-  <div class="newsletter-badge">Early Access</div>
-  <h3 class="newsletter-title">Get early access to NuxiPro Cloud</h3>
+<div
+  class="newsletter"
+  id="newsletter-root"
+  data-locale={locale}
+  data-i18n-button={t('newsletter.button')}
+  data-i18n-rate-limit={t('newsletter.errorRateLimit')}
+  data-i18n-network={t('newsletter.errorNetwork')}
+  data-i18n-subscribe={t('newsletter.errorSubscribe')}
+>
+  <div class="newsletter-badge">{t('newsletter.badge')}</div>
+  <h3 class="newsletter-title">{t('newsletter.title')}</h3>
   <p class="newsletter-desc">
-    Join the waitlist for <strong>exclusive newsletters</strong> and <strong>pre-release access</strong> before the official launch.
+    {t('newsletter.descPrefix')} <strong>{t('newsletter.descBold1')}</strong> {t('newsletter.descAnd')} <strong>{t('newsletter.descBold2')}</strong> {t('newsletter.descSuffix')}
   </p>
 
   <form class="newsletter-form" id="newsletter-form">
     <div class="newsletter-row">
-      <input type="email" name="email" placeholder="your.email@example.com" required class="newsletter-input" />
-      <button type="submit" class="newsletter-btn" id="newsletter-btn">Join Waitlist</button>
+      <input type="email" name="email" placeholder={t('newsletter.placeholder')} required class="newsletter-input" />
+      <button type="submit" class="newsletter-btn" id="newsletter-btn">{t('newsletter.button')}</button>
     </div>
-    <p class="newsletter-disclaimer">No spam. Unsubscribe anytime.</p>
+    <p class="newsletter-disclaimer">{t('newsletter.disclaimer')}</p>
 
     <!-- Honeypot anti-bot -->
     <div aria-hidden="true" style="position:absolute;left:-9999px" tabindex="-1">
@@ -23,12 +39,12 @@
 
   <div class="newsletter-success" id="newsletter-success">
     <span class="success-check">✓</span>
-    <p class="success-text">You're on the list!</p>
+    <p class="success-text">{t('newsletter.success')}</p>
   </div>
 
   <div class="newsletter-error" id="newsletter-error">
     <p class="error-text" id="error-text"></p>
-    <button type="button" class="error-retry" id="error-retry">Try again</button>
+    <button type="button" class="error-retry" id="error-retry">{t('newsletter.errorRetry')}</button>
   </div>
 </div>
 
@@ -136,40 +152,45 @@
 <script>
   const RATE_LIMIT_MS = 60_000;
 
-  // Endpoint dynamique zéro hardcode via variables d'environnement Astro
   const baseUrl = (import.meta.env.PUBLIC_API_URL ?? "").trim().replace(/\/+$/, "");
   const API_ENDPOINT = baseUrl ? `${baseUrl}/api/subscribe` : "/api/subscribe";
 
-  const form = document.getElementById("newsletter-form") as HTMLFormElement;
-  const btn = document.getElementById("newsletter-btn") as HTMLButtonElement;
-  const success = document.getElementById("newsletter-success") as HTMLDivElement;
-  const errorBox = document.getElementById("newsletter-error") as HTMLDivElement;
-  const errorText = document.getElementById("error-text") as HTMLParagraphElement;
-  const retryBtn = document.getElementById("error-retry") as HTMLButtonElement;
+  const root = document.getElementById("newsletter-root") as HTMLDivElement | null;
+  const form = document.getElementById("newsletter-form") as HTMLFormElement | null;
+  const btn = document.getElementById("newsletter-btn") as HTMLButtonElement | null;
+  const success = document.getElementById("newsletter-success") as HTMLDivElement | null;
+  const errorBox = document.getElementById("newsletter-error") as HTMLDivElement | null;
+  const errorText = document.getElementById("error-text") as HTMLParagraphElement | null;
+  const retryBtn = document.getElementById("error-retry") as HTMLButtonElement | null;
 
-  function detectLang(): string {
-    return (navigator.language || "en").toLowerCase().startsWith("fr") ? "fr" : "en";
-  }
+  // i18n injecté côté serveur via data-attributes (remplace navigator.language)
+  const locale = root?.dataset.locale ?? "fr";
+  const i18n = {
+    button: root?.dataset.i18nButton ?? "Join Waitlist",
+    rateLimit: root?.dataset.i18nRateLimit ?? "Please wait before submitting again.",
+    network: root?.dataset.i18nNetwork ?? "Network error. Please try again.",
+    subscribe: root?.dataset.i18nSubscribe ?? "Failed to subscribe",
+  };
 
   function reset(): void {
+    if (!form || !success || !errorBox || !btn) return;
     form.style.display = "";
     success.style.display = "none";
     errorBox.style.display = "none";
-    btn.textContent = "Join Waitlist";
+    btn.textContent = i18n.button;
     btn.removeAttribute("disabled");
   }
 
   form?.addEventListener("submit", async (e: SubmitEvent) => {
     e.preventDefault();
+    if (!form || !btn || !success || !errorBox || !errorText) return;
 
-    // 1. Protection Anti-bot Honeypot
     const formData = new FormData(form);
     if (formData.get("website")) return;
 
-    // 2. Protection Rate-limiting côté client
     const prev = localStorage.getItem("newsletter-ts");
     if (prev && Date.now() - Number(prev) < RATE_LIMIT_MS) {
-      errorText.textContent = "Please wait before submitting again.";
+      errorText.textContent = i18n.rateLimit;
       errorBox.style.display = "flex";
       return;
     }
@@ -177,7 +198,6 @@
     const email = String(formData.get("email") ?? "").trim();
     if (!email) return;
 
-    // 3. UI Optimiste instantanée
     form.style.display = "none";
     success.style.display = "flex";
 
@@ -186,33 +206,31 @@
       form.reset();
     }, 3000);
 
-    // 4. Envoi sécurisé au backend Plunk
     try {
       const res = await fetch(API_ENDPOINT, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           email,
-          notes: `Blog Center Subscription (${detectLang()})`,
+          notes: `Blog Center Subscription (${locale})`,
           userGroup: "Blog",
         }),
       });
 
       if (!res.ok) {
         const errData = (await res.json().catch(() => ({}))) as { error?: string; message?: string };
-        throw new Error(errData.error || errData.message || "Failed to subscribe");
+        throw new Error(errData.error || errData.message || i18n.subscribe);
       }
 
       localStorage.setItem("newsletter-ts", Date.now().toString());
     } catch (err: unknown) {
-      // Fallback propre en cas d'erreur réseau / backend
       clearTimeout(autoResetTimer);
       form.style.display = "";
       success.style.display = "none";
-      btn.textContent = "Join Waitlist";
+      btn.textContent = i18n.button;
       btn.removeAttribute("disabled");
 
-      errorText.textContent = err instanceof Error ? err.message : "Network error. Please try again.";
+      errorText.textContent = err instanceof Error ? err.message : i18n.network;
       errorBox.style.display = "flex";
     }
   });

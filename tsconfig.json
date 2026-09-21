@@ -4,6 +4,9 @@
   "exclude": ["dist"],
   "compilerOptions": {
     "skipLibCheck": true,
-    "moduleResolution": "bundler"
+    "moduleResolution": "bundler",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
   }
 }

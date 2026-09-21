@@ -8,7 +8,6 @@ import starlightThemeExquisitus from 'starlight-theme-exquisitus';
 import starlightLlmsTxt from 'starlight-llms-txt';
 import starlightLinksValidator from 'starlight-links-validator';
 import starlightLlmActions from 'starlight-llm-actions';
-// import starlightAgentready from 'starlight-agentready'; // Disabled – replacing with Pagefind/Algolia
 import starlightMdTxt from 'starlight-md-txt';
 
 // https://astro.build/config
@@ -17,14 +16,25 @@ export default defineConfig({
   integrations: [sitemap(), starlight({
     title: 'NuxiPro Center',
     favicon: '/logo.png',
-    credits: false,
+    lastUpdated: true,
     social: [
       {
-        icon: 'github',
-        label: 'GitHub',
-        href: 'https://github.com/nuxipro',
+        icon: 'codeberg',
+        label: 'Codeberg',
+        href: 'https://codeberg.org/NuxiPro',
       },
     ],
+    defaultLocale: "root",
+    locales: {
+      root: {
+        label: "Français",
+        lang: "fr",
+      },
+      en: {
+        label: "English",
+        lang: "en",
+      },
+    },
     plugins: [
       starlightBlog({
         authors: {
@@ -38,16 +48,13 @@ export default defineConfig({
       starlightLlmsTxt(),
       starlightLinksValidator(),
       starlightLlmActions(),
-      // starlightAgentready({ domain: 'center.nuxipro.com' }), // Disabled – use Pagefind (built‑in) or Algolia DocSearch instead
       starlightMdTxt({ format: '.md.txt' }),
     ],
     components: {
-      // Surcharge du composant Footer natif
       Footer: './src/components/Footer.astro',
       Head: './src/components/Head.astro',
     },
     sidebar: [
-      // La documentation sera ajoutée ici plus tard
     ],
   })],
 });
