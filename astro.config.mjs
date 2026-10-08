@@ -40,7 +40,7 @@ export default defineConfig({
         authors: {
           admin: {
             name: 'Sébastien Babas',
-            url: 'https://github.com/sbabas',
+            url: 'https://codeberg.org/sbabas',
           },
         },
       }),

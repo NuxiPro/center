@@ -9,8 +9,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "astro": "astro",
-    "i18n:sync": "node scripts/i18n-sync.mjs",
-    "i18n:check": "node scripts/i18n-sync.mjs --check"
+    "deploy": "bun run build && bunx wrangler pages deploy ./dist/client --project-name=center --branch=main"
   },
   "dependencies": {
     "@astrojs/sitemap": "3.7.4",

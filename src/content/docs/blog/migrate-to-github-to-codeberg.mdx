@@ -1,0 +1,61 @@
+---
+title: Migré de github à codeberg
+description: Pourquoi j'ai migré de github à codeberg.
+date: 2026-10-02
+authors: ['admin']
+---
+
+import Newsletter from '@/components/Newsletter.astro';
+
+## Pourquoi j'ai migré de Github à Codeberg ?
+J'ai migré de GitHub vers Codeberg principalement parce que GitHub est une plateforme propriétaire, ce qui pose problème en matière de souveraineté selon moi (notamment en raison de l'entraînement de leur IA Copilot sur le code public).
+
+Mon objectif principal était de trouver la simplicité : avoir moins de fonctionnalités inutilisées, profiter d'une plateforme qui va droit au but.
+
+### Mes étapes pour migrer mon projet de GitHub vers Codeberg :
+
+J'ai utilisé ces commandes pour procéder à la migration :
+
+```Bash
+# 1. Modifier l'URL du dépôt distant pour pointer vers Codeberg
+git remote set-url origin https://codeberg.org/NuxiPro/Core.git
+
+# 2. Pousser l'ensemble des branches et des tags
+git push --all
+git push --tags
+``` 
+J'aurais pu utiliser l'outil natif d'import de Codeberg, mais comme le dépôt Core de NuxiPro était privé, j'ai préféré faire le transfert manuellement par choix. Ça a pris quelques minutes et tout s'est très bien passé.
+
+---
+
+### Ce que je gagne et ce que je perds en quittant GitHub pour Codeberg
+#### Ce que je gagne : 
+- Simplicité d'usage au quotidien
+- Pas de surcharge de fonctionnalités inutiles
+- Souveraineté (Codeberg est hébergé en Allemagne par une association européenne)
+- Éthique : pas de modèle économique basé sur l'exploitation de ton code
+- Un environnement plus calme et sobre, sans outils propriétaires
+
+#### Ce que je perds : 
+- Moins de visibilité que sur GitHub
+- Moins d'outils clé en main, mais plus de contrôle sur ce que j'ajoutee
+
+---
+
+### Runner Forgejo auto-hébergé sur mon PC perso
+
+J'ai pris la décision d'auto-héberger mon propre runner sur ma machine personnelle.
+
+J'utilise la stratégie Docker-in-Docker (DinD) : les jobs s'exécutent dans un démon Docker séparé, sans accès direct au socket Docker de mon hôte, ce qui garantit une bonne isolation de mes environnements de build.
+
+J'ai fait ce choix pour ne pas saturer les ressources partagées de la communauté Codeberg pendant mes phases de tests et de déploiements. À terme, je déplacerai ce runner sur un serveur dédié pour ne plus dépendre de mon PC de bureau.
+
+---
+
+### Petit point sur la démo
+
+J'ai conservé le dépôt de la [démo](https://demo.nuxipro.com/) sur GitHub pour l'instant, car elle va très bientôt être arrêtée et supprimée. Comme c'était une version de test qui demande de la maintenance inutile, elle sera remplacée directement. Je préviendrai avant sa suppression définitive.
+
+---
+
+<Newsletter />

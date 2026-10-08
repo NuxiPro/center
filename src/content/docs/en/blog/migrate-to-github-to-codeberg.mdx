@@ -1,0 +1,61 @@
+---
+title: Migrated from GitHub to Codeberg
+description: Why I migrated from GitHub to Codeberg.
+date: 2026-10-02
+authors: ['admin']
+---
+
+import Newsletter from '@/components/Newsletter.astro';
+
+## Why I migrated from GitHub to Codeberg?
+I migrated from GitHub to Codeberg mainly because GitHub is a proprietary platform, which is a sovereignty issue for me (notably because their Copilot AI is trained on public code).
+
+My main goal was to find simplicity: fewer unused features, a platform that gets straight to the point.
+
+### My steps to migrate my project from GitHub to Codeberg:
+
+I used these commands to perform the migration:
+
+```Bash
+# 1. Change the remote URL to point to Codeberg
+git remote set-url origin https://codeberg.org/NuxiPro/Core.git
+
+# 2. Push all branches and tags
+git push --all
+git push --tags
+```
+I could have used Codeberg's native import tool, but since the NuxiPro Core repository was private, I preferred to do the transfer manually by choice. It took a few minutes and everything went very well.
+
+---
+
+### What I gain and what I lose leaving GitHub for Codeberg
+#### What I gain:
+- Everyday simplicity
+- No overload of unused features
+- Sovereignty (Codeberg is hosted in Germany by a European non-profit)
+- Ethics: no business model based on exploiting your code
+- A calmer, cleaner environment, without proprietary tools
+
+#### What I lose:
+- Less visibility than on GitHub
+- Fewer out-of-the-box tools, but more control over what I add
+
+---
+
+### Self-hosted Forgejo runner on my personal PC
+
+I decided to self-host my own runner on my personal machine.
+
+I use the Docker-in-Docker (DinD) strategy: jobs run in a separate Docker daemon, without direct access to my host's Docker socket, which guarantees good isolation for my build environments.
+
+I made this choice so I don't saturate Codeberg's shared community resources during my testing and deployment phases. Eventually, I will move this runner to a dedicated server so I no longer depend on my desktop PC.
+
+---
+
+### Quick note about the demo
+
+I kept the [demo](https://demo.nuxipro.com/) repository on GitHub for now, because it will very soon be stopped and deleted. Since it was a test version requiring unnecessary maintenance, it will be replaced directly. I will let you know before its final removal.
+
+---
+
+<Newsletter />
