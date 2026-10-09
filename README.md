@@ -1,12 +1,17 @@
 # NuxiPro Center – Documentation Site
 
+> [!WARNING]
+> **Ce dépôt GitHub n'est plus maintenu.**
+> Le projet est désormais développé et maintenu directement sur Codeberg :
+> **https://codeberg.org/NuxiPro/center**
+>
+> This GitHub repository is no longer maintained. Development now happens on Codeberg:
+> **https://codeberg.org/NuxiPro/center**
+
+
 [![Built with Starlight](https://astro.badg.es/v2/built-with-starlight/tiny.svg)](https://starlight.astro.build)
 
 This repository hosts the **public documentation site** for NuxiPro, built with **Astro + Starlight**. All sensitive data and internal services (PostHog, Starlight AgentReady) have been removed.
-
-```bash
-bun create astro@latest -- --template starlight
-```
 
 ## 📦 What’s inside?
 
