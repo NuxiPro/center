@@ -1,0 +1,25 @@
+---
+title: NuxiPro documentation and build log
+description: NuxiPro documentation and blog — minimalist Kanban with automatic archiving.
+template: splash
+hero:
+  title: A workspace that cleans itself.
+  tagline: Documentation, Cloud progress and field notes — no noise.
+  actions:
+    - text: Documentation
+      link: /en/guides/first-page/
+      icon: open-book
+    - text: Blog
+      link: /en/blog/
+      icon: pencil
+---
+
+import RecentBlog from '@/components/RecentBlog.astro';
+
+<RecentBlog
+  locale="en"
+  title="Latest posts"
+  subtitle="NuxiPro Cloud progress, in short."
+  seeAllText="All posts"
+  seeAllHref="/en/blog/"
+/>

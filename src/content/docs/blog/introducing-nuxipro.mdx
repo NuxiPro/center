@@ -9,37 +9,28 @@ import Newsletter from '@/components/Newsletter.astro';
 
 ## Qu'est-ce que NuxiPro ?
 
-NuxiPro est un gestionnaire de tâches minimaliste et léger, sans fonctionnalités inutiles qui encombrent votre espace de travail. Son objectif principal est de créer un **espace de travail auto-nettoyant** — les tâches qui atteignent "Terminé" sont archivées automatiquement.
+NuxiPro est un gestionnaire de tâches minimaliste, sans fonctionnalité inutile qu'on n'utilise pas, alternative à Trello sans sa complexité.
 
-La plupart des outils Kanban facilitent l'ajout de tâches et de fonctionnalités, mais aucun ne garde votre espace de travail propre et sans encombrement. NuxiPro résout ce problème.
+Son objectif principal est de créer un espace de travail qui se nettoie tout seul, sans qu'elle ne devienne surchargé visuellement avec des tâches terminées, en les archivant automatiquement.
 
-## Le problème
+## Le problème qu'il résout
 
-Les outils actuels nous aident à ajouter des tâches, mais aucun ne nous aide à les retirer. Sans nettoyage automatique, la colonne "Terminé" devient un cimetière de cartes. On perd un temps précieux à chercher comment archiver et à nettoyer manuellement, au lieu de faire avancer son projet.
+La plupart des outils actuels vous aident à ajouter des tâches facilement, mais aucun ne vous aide à garder votre espace de travail épuré correctement sans faire des configurations compliquées.
 
-J'ai construit NuxiPro pour proposer un Kanban simple, minimaliste, prêt à l'emploi. Dès qu'une tâche glisse dans la colonne "Terminé", elle est instantanément archivée en arrière-plan. Configuration minimale, zéro complexité, et votre tableau reste propre dès le premier jour.
+En soi, si on n'automatise pas le nettoyage de la colonne « Terminées », celle-ci devient un cimetière à tâches terminées. De plus, nous sommes obligés de nettoyer notre espace de travail à la main, et on perd un temps fou à chercher comment nettoyer manuellement, au lieu d'avancer sur son projet.
+
+En gros, l'outil devient le projet en lui-même à force de gérer l'outil.
 
 ## Comment ça marche
 
-- **Archivage instantané (démo) :** Les tâches s'archivent instantanément lorsqu'elles sont déplacées vers Terminé. Les données restent dans votre navigateur (localStorage).
-- **Archivage configurable (cloud) :** Choisissez votre mode d'archivage — instantané ou temporisé (X jours). Stockage serveur persistant.
+Vous déplacez vos tâches vers la colonne Terminées et le système déplace vos tâches vers la zone dédiée pour ne jamais perdre vos données et garder la trace de votre travail effectué.
 
 ## Fonctionnalités clés
 
-- **Zéro friction** — L'archivage manuel disparaît complètement
 - **Zéro encombrement visuel** — Plus de tâches terminées qui polluent votre espace de travail
-- **Suivi simple** — Visualisez votre progression et vos victoires quotidiennes, sans effort
+- **Suivi simple** — Visualisez votre progression et vos victoires quotidiennes
 - **Aucune fonctionnalité inutile** — Concentrez-vous sur l'essentiel sans être submergé
-- **Démarrage rapide** — Un outil prêt à l'emploi, simple au quotidien
-
-## Démo vs Cloud
-
-| | Démo | Cloud |
-|---|---|---|
-| Mode d'archivage | Instantané uniquement | Instantané ou temporisé |
-| Stockage des données | localStorage du navigateur | Côté serveur (persistant) |
-| Usage prévu | Découverte | Production, usage quotidien réel |
-| Compte requis | Non | Oui |
+- **Démarrage rapide** — Un outil prêt à l'emploi, efficace au quotidien
 
 ## Essayez-la
 
@@ -52,13 +43,13 @@ La version Cloud de NuxiPro ([app.nuxipro.com](https://app.nuxipro.com)) est act
 ### Ce que proposera NuxiPro Cloud
 
 - **Stockage sécurisé des données** — Vos données sont stockées dans une base de données, pas dans le localStorage du navigateur
-- **Souveraineté des données** — Vous restez propriétaire de vos données, toujours
+- **Souveraineté des données** — Vous restez propriétaire de vos données, et elles seront stockées chez UpCloud en Finlande
 - **Support multi-projets** — Chaque projet apparaît comme une ligne dans la barre latérale avec son propre nom
-- **Archivage automatique des tâches terminées** — Les tâches terminées sont déplacées automatiquement vers l'archive
+- **Archivage automatique des tâches terminées** — Les tâches terminées sont déplacées automatiquement vers la zone d'archive sans encombrer visuellement
 - **Outils minimalistes** — Aucune fonctionnalité inutile que vous n'utiliserez jamais
-- **Compte dédié** — Un compte par utilisateur
+- **Compte dédié**
 - **Espaces de travail** — Basculez entre vos espaces de travail sans perdre de temps
-- **Configuration réduite** — Choisissez votre mode d'archivage à la configuration, changez-le à tout moment
+- **Configuration légère** — Choisissez votre mode d'archivage à la configuration, changez-le à tout moment
 
 ### Comment fonctionne l'archivage dans Cloud
 
@@ -69,7 +60,7 @@ Deux modes au choix :
 
 Vos tâches sont visuellement séparées de votre espace de travail. Les tâches terminées passent dans une zone d'archive dédiée, sans être chargées à l'ouverture de votre projet — ce qui évite les problèmes de performance.
 
-Votre espace de travail reste propre, sans encombrement visuel dû aux tâches terminées. Vous pouvez toujours retrouver vos tâches archivées dans la zone d'archive, sans jamais les perdre.
+Votre dashboard reste visuellement propre, sans encombrement visuel dû aux tâches terminées. Vous pouvez toujours retrouver vos tâches archivées dans la zone d'archive, sans jamais les perdre.
 
 ### Pourquoi la démo n'est pas faite pour de vrais projets
 
@@ -95,7 +86,7 @@ Vos retours façonneront directement la construction de NuxiPro Cloud.
 
 ## Suivez le développement
 
-- **Blog** — Suivez ce (blog)[https://center.nuxipro.com] pour les mises à jour sur NuxiPro Cloud
+- **Blog** — Suivez ce [blog](https://center.nuxipro.com) pour les mises à jour sur NuxiPro Cloud
 - **Dev.to** — Suivez [@sbabas](https://dev.to/sbabas) pour du contenu technique
 - **Twitter** — [@Tybass450](https://twitter.com/Tybass450)
 - **Email** — [contact@nuxipro.com](mailto:contact@nuxipro.com)

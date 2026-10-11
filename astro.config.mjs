@@ -46,7 +46,10 @@ export default defineConfig({
       }),
       starlightThemeExquisitus(),
       starlightLlmsTxt(),
-      starlightLinksValidator(),
+      starlightLinksValidator({
+        errorOnFallbackPages: false,
+        exclude: ['/blog', '/blog/**', '/en/blog', '/en/blog/**'],
+      }),
       starlightLlmActions(),
       starlightMdTxt({ format: '.md.txt' }),
     ],

@@ -1,18 +1,25 @@
 ---
-title: Welcome to NuxiPro center
+title: Documentation et journal de bord NuxiPro
+description: Documentation et blog de NuxiPro — Kanban minimaliste avec archivage automatique.
 template: splash
 hero:
-  image:
-    file: ../../assets/icon.svg
+  title: Un espace de travail qui se nettoie tout seul.
+  tagline: Documentation, avancées Cloud et retours d'expérience — sans bruit.
   actions:
     - text: Documentation
       link: /guides/first-page/
       icon: open-book
     - text: Blog
-      link: /blog/introducing-nuxipro/
+      link: /blog/
       icon: pencil
 ---
 
-import { LinkCard } from '@astrojs/starlight/components';
+import RecentBlog from '@/components/RecentBlog.astro';
 
-<LinkCard title="Discover NuxiPro cloud introducing" description="Follow the advances of NuxiPro Cloud in the blog" href="/blog/introducing-nuxipro/" icon="rocket" />
+<RecentBlog
+  locale="fr"
+  title="Derniers articles"
+  subtitle="L'avancement de NuxiPro Cloud, en bref."
+  seeAllText="Tout le blog"
+  seeAllHref="/blog/"
+/>
