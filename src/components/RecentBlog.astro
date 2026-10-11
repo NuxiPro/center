@@ -1,4 +1,17 @@
 ---
+/**
+ * "Latest posts" dynamic block used on the homepage (`index.mdx`).
+ *
+ * Reads the `docs` collection, keeps dated `blog/` entries matching `locale`,
+ * sorts them newest-first and renders the top 3 as cards. Renders nothing
+ * when there are no posts, so the homepage never looks empty or stale.
+ *
+ * @param locale - `'fr'` (root, `/`) or `'en'` (`/en/`).
+ * @param title - Section heading.
+ * @param subtitle - Optional section subheading.
+ * @param seeAllText - Label of the link to the full blog index.
+ * @param seeAllHref - URL of the full blog index (`/blog/` or `/en/blog/`).
+ */
 import { getCollection } from 'astro:content';
 
 interface Props {
@@ -17,7 +30,7 @@ const posts = all
   .filter((e) => {
     const id = e.id as string;
     if (!id.includes('blog/')) return false;
-    // Pas de page index du blog, uniquement les articles datés
+    // Skip the blog index page itself: only dated articles.
     const date = (e.data as { date?: unknown }).date;
     if (!date) return false;
     return locale === 'en' ? id.startsWith('en/') : !id.startsWith('en/');

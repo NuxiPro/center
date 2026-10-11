@@ -14,8 +14,6 @@ export const collections = {
   i18n: defineCollection({
     loader: i18nLoader(),
     schema: i18nSchema({
-      // Liste explicite nécessaire pour le typage de Astro.locals.t("newsletter.*")
-      // .catchall() permet d'ajouter d'autres clés sans toucher au schéma (pas de build error)
       extend: z
         .looseObject({
           'newsletter.badge': z.string().optional(),

@@ -37,6 +37,7 @@ export default defineConfig({
     },
     plugins: [
       starlightBlog({
+        navigation: 'none',
         authors: {
           admin: {
             name: 'Sébastien Babas',
@@ -56,6 +57,7 @@ export default defineConfig({
     components: {
       Footer: './src/components/Footer.astro',
       Head: './src/components/Head.astro',
+      SocialIcons: './src/components/SocialIcons.astro',
     },
     sidebar: [
     ],

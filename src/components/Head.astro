@@ -1,16 +1,23 @@
 ---
+/**
+ * Document head (Starlight `Head` override).
+ *
+ * Extends Starlight's default head with favicon, Apple touch icon and
+ * Open Graph / Twitter Card share image. All point to `public/logo.png`.
+ * Registered in `astro.config.mjs` under `starlight.components.Head`.
+ */
 import DefaultHead from '@astrojs/starlight/components/Head.astro';
 ---
 
 <DefaultHead />
 
-<!-- Favicon – icône de l’onglet – utilise le fichier public/logo.png -->
+<!-- Favicon (browser tab) — uses the `public/logo.png` file -->
 <link rel="icon" href="/logo.png" type="image/png" />
 
-<!-- Apple Touch Icon – utilise le même PNG -->
+<!-- Apple touch icon — uses the same PNG -->
 <link rel="apple-touch-icon" href="/logo.png" sizes="180x180" />
 
-<!-- Open Graph / Twitter Card – image de partage – utilise le même PNG -->
+<!-- Open Graph / Twitter Card (share image) — uses the same PNG -->
 <meta property="og:image" content="/logo.png" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="/logo.png" />

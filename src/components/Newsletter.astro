@@ -1,4 +1,14 @@
 ---
+/**
+ * Newsletter / waitlist signup block (NuxiPro Cloud).
+ *
+ * Renders a localized email form posting to `PUBLIC_API_URL/api/subscribe`
+ * (falls back to same-origin `/api/subscribe`). Includes a honeypot field
+ * and a `localStorage`-based rate limit. All strings come from the `i18n`
+ * collection (`newsletter.*` keys in `src/content/i18n/*.json`).
+ * Embedded at the bottom of blog articles — intentionally not on the
+ * homepage, whose role is orientation only.
+ */
 import config from 'virtual:starlight/user-config';
 
 const t = Astro.locals.t;
@@ -30,7 +40,7 @@ const locale = rawLocale === 'root' ? rootLang : rawLocale;
     </div>
     <p class="newsletter-disclaimer">{t('newsletter.disclaimer')}</p>
 
-    <!-- Honeypot anti-bot -->
+    <!-- Honeypot anti-bot field -->
     <div aria-hidden="true" style="position:absolute;left:-9999px" tabindex="-1">
       <input type="text" name="website" tabindex="-1" autocomplete="off" />
     </div>
@@ -162,7 +172,7 @@ const locale = rawLocale === 'root' ? rootLang : rawLocale;
   const errorText = document.getElementById("error-text") as HTMLParagraphElement | null;
   const retryBtn = document.getElementById("error-retry") as HTMLButtonElement | null;
 
-  // i18n injecté côté serveur via data-attributes (remplace navigator.language)
+  // i18n is injected server-side via data attributes (replaces navigator.language).
   const locale = root?.dataset.locale ?? "fr";
   const i18n = {
     button: root?.dataset.i18nButton ?? "Join Waitlist",
