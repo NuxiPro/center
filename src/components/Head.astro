@@ -7,9 +7,12 @@
  * Registered in `astro.config.mjs` under `starlight.components.Head`.
  */
 import DefaultHead from '@astrojs/starlight/components/Head.astro';
+import Analytics from './Analytics.astro';
+
 ---
 
 <DefaultHead />
+<Analytics />
 
 <!-- Favicon (browser tab) — uses the `public/logo.png` file -->
 <link rel="icon" href="/logo.png" type="image/png" />

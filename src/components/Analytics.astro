@@ -1,0 +1,70 @@
+---
+/**
+ * PostHog analytics — anonymous, cookieless audience measurement.
+ *
+ * Scope: pages visited, source, time on page, bounce rate. Nothing else.
+ *
+ * Privacy (GDPR/ePrivacy):
+ * - Zero cookies, zero browser storage → no consent banner required.
+ * - `cookieless_mode: 'always'` → identity is an irreversible hash computed
+ *   on PostHog's servers (daily-rotating salt, IP stripped after hashing).
+ *   Requires "Cookieless server hash mode" enabled in PostHog
+ *   (Project Settings → Web analytics), otherwise events are ignored.
+ * - No person profiles, no geolocation. PostHog Cloud EU (DPA).
+ * - Legal basis: legitimate interest — document it in the privacy policy.
+ *   `respect_dnt` honors the browser's Do Not Track signal.
+ *
+ * Anti-bot (client heuristics, before any initialization):
+ * - `navigator.webdriver` → headless/automated browsers (Puppeteer, etc.).
+ * - Known bot/preview/crawler user agents. JS-less fetchers (RSS readers,
+ *   social previews) never run this script, so they never send events.
+ *   Not bot-proof — a well-disguised bot can still pass.
+ *
+ * Trade-off: daily salt → cross-day (cohort) retention is impossible by
+ * design; unique visitors stay accurate per day only.
+ *
+ * Secrets: no hardcoded values. Key/host come from `PUBLIC_POSTHOG_KEY`
+ * and `PUBLIC_POSTHOG_HOST` (`.env` locally, Cloudflare Pages build env in
+ * production), inlined by Vite at build time. Rendered via `Head.astro`,
+ * so it is deduplicated and loads once per page.
+ */
+---
+
+<script>
+  import posthog from 'posthog-js';
+
+  const key = import.meta.env.PUBLIC_POSTHOG_KEY;
+
+  // Skip initialization for non-human visitors (automation, known bots).
+  const ua = navigator.userAgent;
+  const BOT_UA =
+    /bot|crawl|spider|slurp|scrap|facebookexternalhit|embedly|whatsapp|telegrambot|discordapp|mastodon|slackbot|twitterbot|linkedinbot|semrush|ahrefs|mj12bot|dotbot|petalbot|yandex|baiduspider|screaming|lighthouse|headlesschrome|phantomjs|curl|wget|python|go-http|java\/|okhttp|axios|libwww|preview|monitor|uptime|pingdom|uptimerobot|gtmetrix/i;
+  const isBot =
+    navigator.webdriver === true || BOT_UA.test(ua) || !navigator.language;
+
+  // Production only, with a valid key, for a human visitor.
+  // For local testing, remove `import.meta.env.PROD &&`.
+  if (key && import.meta.env.PROD && !isBot) {
+    posthog.init(key, {
+      api_host: import.meta.env.PUBLIC_POSTHOG_HOST || 'https://eu.i.posthog.com',
+
+      // Audience only: pageviews + pageleave (time on page) + source props
+      // ($current_url, $referrer, $referring_domain, UTM).
+      capture_pageview: 'history_change',
+      capture_pageleave: 'if_capture_pageview',
+      autocapture: false,
+      capture_performance: false,
+      capture_exceptions: false,
+
+      // Zero terminal storage; identity handled by the server-side hash.
+      cookieless_mode: 'always',
+      persistence: 'memory',
+      person_profiles: 'never',
+      respect_dnt: true,
+
+      // Minimal network: no /decide (feature flags, surveys), no recording.
+      disable_session_recording: true,
+      advanced_disable_decide: true,
+    });
+  }
+</script>
