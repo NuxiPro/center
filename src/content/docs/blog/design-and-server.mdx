@@ -1,0 +1,109 @@
+---
+title: "L'avancée et mes stratégies envisagées pour bosser sur NuxiPro"
+description: "Je reconstruis l'interface visuelle de l'app avec l'IA en me basant sur mes dessins."
+date: 2026-11-18
+authors: ['admin']
+---
+
+import { Image } from 'astro:assets'
+import dessin from '@/assets/draw-sidebar.png';
+import final from '@/assets/final-design-for-sidebar-buttun.png';
+import gloabalDraw from '@/assets/global-design.png';
+import dashbord from '@/assets/dashbord.png';
+import why from '@/assets/why.png';
+import Newsletter from '@/components/Newsletter.astro';
+
+
+## Pourquoi refondre le design maintenant ?
+
+Soyons honnêtes : quand on bosse en solo sur un projet, on a rarement le temps (ni l'énergie) de s'embêter avec de l'ergonomie complexe. Si un outil demande trop d'efforts pour être pris en main, on abandonne. 
+
+Mon objectif avec NuxiPro était simple : **zéro friction au quotidien**. Je veux un outil fluide, direct, sans charge mentale. 
+
+Pour y arriver sans y passer des mois, j'ai pris une décision radicale : **déléguer le code frontend à l'IA** en lui interdisant d'inventer n'importe quoi. Je lui ai donné un cadre strict basé sur mes propres croquis, combiné avec `shadcn/ui`. Pendant qu'elle trace les composants visuels, je peux garder toute mon attention là où ça compte vraiment : le serveur, l'infra et la sécurité.
+
+---
+
+## Du papier au composant : l'exemple de la Sidebar
+
+Le meilleur moyen de ne pas se faire polluer par les suggestions graphiques des LLM, c'est de leur mâcher le travail avec un dessin brut. 
+Exemple concret avec le bouton de la sidebar : je voulais un truc minimaliste qui pivote pour changer de côté selon si le panneau est fermé ou ouvert.
+
+<div style="display: flex; gap: 20px; align-items: center; justify-content: center; margin: 2rem 0;">
+  <div>
+    <Image src={dessin} alt="Mon croquis papier initial" width={300} loading="lazy" />
+    <p style="text-align: center; font-size: 0.85rem; opacity: 0.8;">1. Le croquis sur papier</p>
+  </div>
+  <div>
+    <Image src={final} alt="Le design final implémenté" width={200} loading="lazy" />
+    <p style="text-align: center; font-size: 0.85rem; opacity: 0.8;">2. Le rendu final</p>
+  </div>
+</div>
+
+Après quelques ajustements avec l'IA pour qu'elle respecte exactement ce comportement, le résultat est propre et exactement tel que je l'imaginais.
+
+---
+
+## Architecture globale et Dashboard
+
+Pour l'application entière, rebelote : un schéma global griffonné à la main pour fixer la structure des panneaux (zones dynamiques, listes d'espaces de travail, etc.), injecté dans l'outil avec `shadcn/ui`.
+
+<Image src={gloabalDraw} alt="Schéma global dessiné à la main" width={600} loading="lazy" />
+<p style="text-align: center; font-size: 0.85rem; opacity: 0.8; margin-bottom: 2rem;">Le plan d'architecture visuelle posé à plat.</p>
+
+Après un bon gros travail d'itération avec l'IA pour assembler les briques, on arrive à ce dashboard final :
+
+<Image src={dashbord} alt="Dashboard final de NuxiPro" width={600} loading="lazy" />
+
+---
+
+## Côté coulisses : Perf, State et Sécurité
+
+Un beau design ne sert à rien si l'infrastructure derrière est bancale. Même si cette version n'est pas encore prête pour la prod, j'y travaille activement sur ces points importants : 
+
+- **Centralisation des réglages :** Les settings globaux sont chargés une seule fois depuis le serveur sous forme d'un bloc centralisé. Le frontend se charge ensuite de découper et distribuer les modules proprement. Résultat : moins de requêtes, une structure claire et une seule requête envoyée au serveur en cas de changement, au lieu de plusieurs.
+- **Sécurité du client :** On a tendance à l'oublier quand on délégue le front, mais le client est une passoire potentielle si on le néglige. J'ai traité le code frontend avec le même niveau d'exigence et de sécurisation que mes routes serveurs et mon backend.
+- **Test actif de sécurité :** Comme je vais utiliser NuxiPro pour mon quotidien, je veux qu'il soit sécurisé, souverain, respectueux de la vie privée de mes utilisateurs et de la mienne en hébergeant les données en Europe.
+- **Conception de la centralisation des logs de sécurité des comptes et monitoring pour le serveur et le VPS :** Pour toujours avoir une traçabilité sur les actions transactionnelles et les modifications des paramètres de compte, les logs de sécurité, et surtout sans y inclure de données personnelles dans ces logs, ainsi que la gestion des erreurs en prod.
+- **Gestion de la sécurité des comptes utilisateurs :** Utiliser le magic link à la connexion ou l'inscription, et le TOTP (un code à 6 chiffres généré directement sur le téléphone) ainsi que les passkeys pour l'authentification à double facteur.
+
+Dès qu'un utilisateur active la 2FA, il renforce la sécurité de son compte avec :
+- **Passkey** : connexion directe via la passkey sans avoir à cliquer sur le lien du magic link.
+- **TOTP** : s'active au moment de se connecter avec le magic link ; on arrive sur une pré-session pour entrer son code généré par l'application d'authentification.
+- **Backup Codes** : les codes de secours sensibles à sauvegarder de manière sécurisée (à ne pas partager, sous peine d'accès non autorisé à votre compte ; possibilité de régénérer les codes s'il y a eu une fuite pour révoquer les codes inutilisés).
+
+Bref, l'interface est posée, je n'ai plus besoin d'y toucher. Place à la suite.
+
+---
+
+### Pourquoi j'ai fait le choix de déplacer les tâches archivées vers une autre table dédiée à l'archive dans la base de données ?
+
+<Image src={why} alt="Comparison sketch" width={700} loading="lazy" />
+
+J'ai fait ce choix principalement parce que je ne veux pas charger toutes les données inutiles, mais seulement les données utiles immédiates.
+
+Je m'explique : en gros, déplacer les données de la table `cards` (principalement utilisée pour gérer le kanban au quotidien et stocker les tâches à utilité immédiate importantes pour mon quotidien) évite de charger toutes les tâches. Si je n'avais pas fait cette séparation, toutes les tâches de la colonne "terminée" seraient restées mélangées avec celles "à faire" et "en cours".
+
+Je souhaite donc déplacer ces tâches de la table du kanban vers la table `archived_cards`, car sinon je vais rencontrer des problèmes du type :
+- **Problème de performance :** lié au chargement de toutes les tâches qui ne sont plus utiles au quotidien. L'outil s'épuise à vouloir charger ces données inutiles.
+- **Design visuel cassé :** la plupart des logiciels se contentent de cacher les tâches sans les déplacer. Conséquence : ces données restent en arrière-plan et alourdissent le logiciel.
+- **Bruit visuel :** votre espace de travail devient un cimetière de tâches terminées, ce qui ne donne pas envie de l'utiliser, surtout s'il faut archiver manuellement.
+
+J'aurais pu me contenter d'un flag booléen indiquant si une tâche est archivée, mais cela n'aurait fait qu'empirer les choses en rendant NuxiPro plus compliqué à maintenir inutilement.
+
+J'ai testé des outils qui essayaient de résoudre ce problème sans déplacer physiquement les tâches (en les cachant simplement visuellement sans rien changer). 
+
+Le fait de choisir de déplacer physiquement la donnée augmente la sécurité pour éviter les fuites, les bugs et les crashs immédiats si des tâches fuitaient avec un simple flag. La table `archived_cards` est ainsi conçue pour grandir à l'infini en toute sécurité, bien qu'il y ait aussi des risques que j'ai pris en compte :
+- **Potentielle désynchronisation :** je le suppose, mais je vais tester cela pour évaluer si cela représente un risque majeur à anticiper.
+- **Complexité d'écriture :** malgré sa simplicité à la lecture.
+- **Autres bugs potentiels** que je n'ai pas encore détectés.
+
+Au final, j'ai pu intégrer tout cela dans le projet :
+- **Chargement en 2 phases :** on charge obligatoirement la donnée la plus légère en premier, puis la plus lourde uniquement si l'utilisateur en a besoin, sinon on ne la charge pas du tout.
+- **Mise en cache locale directe** des données (tâches, paramètres, etc.) pour ne plus les recharger immédiatement.
+- **Centralisation côté serveur** des paramètres utilisateur : renvoi des données en une seule requête sans complexifier les appels.
+- **Interface prête à être utilisée** au quotidien sans ralentissement inutile, juste l'essentiel.
+
+---
+
+<Newsletter />
